@@ -34,21 +34,7 @@ function toggleMúsica() {
         musica.pause();
         icone.innerText = "🎵";
     }
-}
-function toggleMúsica() {
-    const musica = document.getElementById('musica-cidade');
-    const icone = document.getElementById('icone-audio');
-    
-    if (musica.paused) {
-        musica.play().catch(error => {
-            console.log("O áudio não pôde ser iniciado: ", error);
-            alert("Certifique-se de que o arquivo 'musica.mp3' está na pasta correta!");
-        });
-        icone.innerText = "⏸️";
-    } else {
-        musica.pause();
-        icone.innerText = "🎵";
-    }
+
 }
 // Função para abrir e fechar o menu de 3 pontinhos
 function toggleMenu() {
