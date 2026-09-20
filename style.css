@@ -17,6 +17,11 @@ body {
     scroll-behavior: smooth;
 }
 
+/* Trava a rolagem da página enquanto o visualizador de fotos está aberto */
+body.lb-aberto {
+    overflow: hidden;
+}
+
 
 /* Secção Principal (Hero) */
 .hero {
@@ -284,10 +289,12 @@ nav a:hover {
     color: #a0a5b5;
     font-size: 14px;
     line-height: 1.6;
-}/* Configuração ideal para o formato de banner retangular da logo */
+}
+
+/* Configuração ideal para o formato de banner retangular da logo */
 .logo-site {
-    height: 50px; /* Aumentamos um pouco para dar mais visibilidade */
-    width: auto;  
+    height: 50px;
+    width: auto;
     object-fit: contain;
     display: inline-block;
     vertical-align: middle;
@@ -308,6 +315,7 @@ header {
     display: flex;
     align-items: center;
 }
+
 /* Player de Áudio Profissional Fixo no Canto Inferior Direito */
 .audio-player-fixo {
     position: fixed;
@@ -344,6 +352,7 @@ header {
     font-size: 12px;
     letter-spacing: 0.5px;
 }
+
 /* Estilo do Botão de 3 Pontinhos (Menu Hambúrguer) */
 .menu-toggle {
     display: flex;
@@ -396,38 +405,18 @@ nav a {
 nav.active {
     display: flex !important;
 }
-/* Botão Voltar ao Topo */
-#btn-topo {
-    position: fixed;
-    bottom: 85px; /* Posicionado acima do botão da música que fica no bottom: 25px */
-    right: 25px;
-    background-color: rgba(20, 22, 29, 0.85);
-    border: 1px solid #1c52e8;
-    color: #ffffff;
-    width: 45px;
-    height: 45px;
-    border-radius: 50%; /* Deixa o botão perfeitamente redondo */
-    cursor: pointer;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0px 4px 20px rgba(28, 82, 232, 0.3);
-    z-index: 9999;
-    transition: 0.3s ease;
-    backdrop-filter: blur(5px);
-}
 
-/* Botão Voltar ao Topo */
+/* Botão Voltar ao Topo (estava duplicado; ficou só esta versão) */
 #btn-topo {
     position: fixed;
-    bottom: 85px; 
+    bottom: 85px; /* Acima do botão da música, que fica em bottom: 25px */
     right: 25px;
     background-color: rgba(20, 22, 29, 0.85);
     border: 1px solid #1c52e8;
     color: #ffffff;
     width: 45px;
     height: 45px;
-    border-radius: 50%; 
+    border-radius: 50%;
     cursor: pointer;
     display: flex;
     justify-content: center;
@@ -435,8 +424,8 @@ nav.active {
     box-shadow: 0px 4px 20px rgba(28, 82, 232, 0.3);
     z-index: 9999;
     backdrop-filter: blur(5px);
-    
-    /* MODIFICADO: Começa invisível e escondido */
+
+    /* Começa invisível e escondido */
     opacity: 0;
     visibility: hidden;
     transition: all 0.4s ease; /* Transição suave para aparecer e sumir */
@@ -445,10 +434,10 @@ nav.active {
 #btn-topo:hover {
     background-color: #1c52e8;
     box-shadow: 0px 4px 25px rgba(28, 82, 232, 0.6);
-    transform: translateY(-3px); 
+    transform: translateY(-3px);
 }
 
-/* NOVO: Classe que o JavaScript vai aplicar para mostrar o botão */
+/* Classe que o JavaScript aplica para mostrar o botão */
 #btn-topo.show {
     opacity: 1;
     visibility: visible;
@@ -460,8 +449,307 @@ nav.active {
 }
 
 
-.seta-topo {
-    font-size: 16px;
-    font-weight: bold;
+/* ==========================================================
+   GALERIA - POLÍCIA FEDERAL
+   ========================================================== */
+.galeria-section {
+    padding: 60px 8%;
+    text-align: center;
+    background-color: #0d0e12;
+    border-top: 2px solid #232733;
 }
 
+.galeria-section h2 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.galeria-section .subtitle {
+    color: #656975;
+    margin-bottom: 40px;
+}
+
+.galeria-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+    max-width: 980px;
+    margin: 0 auto;
+}
+
+/* Cada foto é um botão, então funciona com mouse, toque e teclado */
+.galeria-item {
+    position: relative;
+    display: block;
+    padding: 0;
+    overflow: hidden;
+    aspect-ratio: 16 / 10;
+    background-color: #14161d;
+    border: 1px solid #232733;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.galeria-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s ease;
+}
+
+.galeria-item:hover,
+.galeria-item:focus-visible {
+    border-color: #1c52e8;
+    box-shadow: 0 0 25px rgba(28, 82, 232, 0.3);
+    outline: none;
+}
+
+.galeria-item:hover img,
+.galeria-item:focus-visible img {
+    transform: scale(1.05);
+}
+
+.galeria-legenda {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 40px 20px 16px;
+    text-align: left;
+    font-size: 15px;
+    font-weight: 600;
+    color: #ffffff;
+    background: linear-gradient(to top, rgba(13, 14, 18, 0.92), rgba(13, 14, 18, 0));
+}
+
+/* ----- Visualizador de fotos (abre ao clicar) ----- */
+.lightbox {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000; /* acima do player de música e do botão de topo */
+    background-color: rgba(6, 7, 10, 0.94);
+    backdrop-filter: blur(6px);
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.lightbox.aberto {
+    display: flex;
+}
+
+.lb-figura {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+    max-width: 100%;
+    min-width: 0;
+}
+
+.lb-figura img {
+    max-width: min(90vw, 1400px);
+    max-height: 78vh;
+    object-fit: contain;
+    border: 1px solid #232733;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.lb-figura figcaption {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-size: 15px;
+    color: #ffffff;
+}
+
+#lb-contador {
+    font-size: 13px;
+    color: #656975;
+}
+
+/* Botões redondos no mesmo estilo do "voltar ao topo" */
+.lb-btn {
+    background-color: rgba(20, 22, 29, 0.85);
+    border: 1px solid #1c52e8;
+    color: #ffffff;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 20px rgba(28, 82, 232, 0.3);
+    transition: 0.3s ease;
+}
+
+.lb-btn:hover,
+.lb-btn:focus-visible {
+    background-color: #1c52e8;
+    box-shadow: 0px 4px 25px rgba(28, 82, 232, 0.6);
+    outline: none;
+}
+
+.lb-fechar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 18px;
+}
+
+/* Celular e telas estreitas */
+@media (max-width: 700px) {
+    .galeria-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .lightbox {
+        gap: 0;
+        padding: 12px;
+    }
+
+    .lb-nav {
+        position: absolute;
+        bottom: 24px;
+        width: 44px;
+        height: 44px;
+    }
+
+    .lb-anterior {
+        left: 20px;
+    }
+
+    .lb-proximo {
+        right: 20px;
+    }
+
+    .lb-figura img {
+        max-width: 96vw;
+        max-height: 68vh;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .galeria-item,
+    .galeria-item img,
+    .lb-btn {
+        transition: none;
+    }
+}
+/* Botão Voltar ao Topo (Corrigido) */
+#btn-topo {
+    position: fixed;
+    bottom: 85px; /* Acima do botão da música, que fica em bottom: 25px */
+    right: 25px;
+    background-color: rgba(20, 22, 29, 0.85);
+    border: 1px solid #1c52e8;
+    color: #ffffff;
+    width: 45px;                 /* Corrigido de 'widt' para 'width' */
+    height: 45px;                /* Define a altura para ficar um quadrado perfeito */
+    border-radius: 50px;         /* Deixa o botão redondo */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s ease;
+    z-index: 9998;
+}
+
+#btn-topo:hover {
+    background-color: #1c52e8;
+    transform: translateY(-3px);
+}
+
+
+/* =======================================================
+   NOVA SEÇÃO: ESTILIZAÇÃO DA GALERIA DE IMAGENS 
+========================================================== */
+
+/* Organiza o container das fotos para alinhar com o design escuro do site */
+.imagens-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding: 60px 8%;
+    background-color: #0d0e12; /* Mesma cor de fundo da Seção VIP */
+}
+
+/* Deixa as fotos organizadas e padronizadas no tamanho */
+.imagem-galeria {
+    width: 260px;
+    height: 160px;
+    object-fit: cover;         /* Recorta a foto sem esticar ou distorcer */
+    border: 1px solid #232733; /* Borda idêntica à dos seus cartões VIP */
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+/* Efeito sutil de zoom azul ao passar o mouse (estilo gamer do seu site) */
+.imagem-galeria:hover {
+    transform: scale(1.05);
+    border-color: #1c52e8;     /* Usa o azul padrão do seu tema (#1c52e8) */
+    box-shadow: 0 0 15px rgba(28, 82, 232, 0.4);
+}
+/* Fundo escuro que cobre a tela inteira */
+.modal-lb {
+    display: none; /* Começa escondido */
+    position: fixed;
+    z-index: 10000; /* Fica acima de absolutamente tudo */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(13, 14, 18, 0.95); /* Preto azulado sutil com opacidade */
+    backdrop-filter: blur(8px); /* Efeito de desfoque profissional no fundo */
+    justify-content: center;
+    align-items: center;
+}
+
+/* A imagem ampliada dentro do modal */
+.conteudo-modal {
+    max-width: 85%;
+    max-height: 85%;
+    border-radius: 8px;
+    border: 2px solid #1c52e8; /* Borda azul combinando com o tema do site */
+    box-shadow: 0 0 30px rgba(28, 82, 232, 0.5);
+    animation: zoomEfeito 0.3s ease; /* Animação suave de abertura */
+}
+
+/* Botão de fechar (X) no canto superior */
+.fechar-lb {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: #ffffff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.fechar-lb:hover {
+    color: #1c52e8; /* Fica azul ao passar o mouse */
+    transform: scale(1.1);
+}
+
+/* Animação suave para a imagem surgir na tela */
+@keyframes zoomEfeito {
+    from { transform: scale(0.7); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}

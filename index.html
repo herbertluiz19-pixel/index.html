@@ -36,26 +36,50 @@
             
             <div class="botoes-container">
                 <button id="btn-jogar" onclick="conectarServidor()">Jogar Agora</button>
-                <a href="https://discord.gg" target="_blank" id="btn-discord">Entrar no Discord</a>
+                <a href="https://discord.gg/Ps7q5Wwv7" target="_blank" id="btn-discord">Entrar no Discord</a>
             </div>
             
-            <p class="status">Jogadores Online: <span id="contador">142</span></p>
+            <p class="status">Jogadores Online: <span id="contador">500</span></p>
         </div>
     </section>
 
-         <!-- NOVO PLAYER PROFISSIONAL FIXADO À DIREITA -->
-    <div class="audio-player-fixo">
-        <button id="btn-play-audio" onclick="toggleMúsica()">
-            <span id="icone-audio">🎵</span> 
-            <span class="texto-audio">Tema da Cidade</span>
-        </button>
-        <audio id="musica-cidade" preload="auto">
-            <!-- Seu link oficial do Discord inserido aqui -->
-            <source src="https://cdn.discordapp.com/attachments/1454250466182434926/1550682091631411230/musica.mp3.mp3?ex=6aaf38bc&is=6aade73c&hm=2f9ccf77876008571a94022b598d800a393246539e6c23133514bde2bfec5960&" type="audio/mpeg">
-        </audio>
-    </div>
+        <!-- PLAYER DE ÁUDIO PROFISSIONAL FIXADO À DIREITA -->
+<div class="audio-player-fixo">
+    <button id="btn-play-audio" onclick="toggleMusica()">
+        <span id="icone-audio">🎵</span> 
+        <span class="texto-audio">Tema da Cidade</span>
+    </button>
+    <!-- Alterado para musica.mp3.mp3 para bater com o nome real oculto na sua pasta -->
+    <audio id="musica-cidade" preload="auto">
+        <source src="musica.mp3.mp3" type="audio/mpeg">
+    </audio>
+</div>
 
+<!-- Lógica em JavaScript Atualizada -->
+<script>
+    function toggleMusica() {
+        const musica = document.getElementById("musica-cidade");
+        const icone = document.getElementById("icone-audio");
 
+        if (musica.paused) {
+            musica.play().then(() => {
+                icone.innerText = "⏸️"; // Muda para o ícone de pause quando começa a tocar
+            }).catch(error => {
+                console.log("O navegador barrou o autoplay. Clique novamente para reproduzir.", error);
+                alert("Clique novamente no botão para iniciar a música!");
+            });
+        } else {
+            musica.pause();
+            icone.innerText = "🎵"; // Volta para a nota musical ao pausar
+        }
+    }
+
+    // Código de segurança para alertar no console caso o arquivo mude de nome futuramente
+    document.getElementById("musica-cidade").onerror = function() {
+        console.error("Não foi possível encontrar o arquivo de áudio na pasta do site.");
+    };
+</script>
+    
     <!-- Seção da Loja VIP -->
     <section id="loja" class="vip-section">
         <h2>Planos VIP - Paraíso SP</h2>
@@ -135,10 +159,74 @@
                 <h3>SafeZones (Zonas Seguras)</h3>
                 <p>Hospitais, Praça e Delegacias são zonas de paz. Atos de violência geram banimento.</p>
             </div>
+
+           <div class="regra-item">
+               <span class="regra-icon">❤️</span>
+               <h3>Anti-Amor à Vida</h3>
+               <p>Valorize a vida do seu personagem acima de tudo. É proibido agir com indiferença diante de ameaças reais ou cometer atos de suicídio simulado.</p>
+           </div>
+
+           <div class="regra-item">
+                 <span class="regra-icon">💰</span>
+                 <h3>Caixa 2 (Fraude)</h3>
+                 <p>É estritamente proibido desviar dinheiro de facções, corporações ou utilizar brechas (bugs) na economia para enriquecimento ilícito no servidor.</p>
+          </div>
+
         </div>
     </section>
 
-    <script src="script.js"></script>
+    <head>
+    <!-- Polícia Federal -->
+    <section id="imagens" class="imagens-section">
+        <h2>Galeria de Imagens - Paraíso SP</h2>
+        <p class="subtitle">Confira momentos incríveis da cidade e da comunidade.</p>
+        
+    <!-- Imagens da PF-->     
+ <link rel="stylesheet" href="style.css">
+
+<div class="imagens-container">
+    <img src="pf-1.jpg.jpg" alt="Imagem 1" class="imagem-galeria">
+    <img src="pf-2.jpg.jpg" alt="Imagem 2" class="imagem-galeria">
+    <img src="pf-3.jpg.jpg" alt="Imagem 3" class="imagem-galeria">
+    <img src="pf-4.png.png" alt="Imagem 4" class="imagem-galeria">
+</div>
+    <script src="script.js"></script> 
+    <!-- Visualizador de Fotos (Modal) -->
+<div id="visualizador" class="modal-lb">
+    <span class="fechar-lb">&times;</span>
+    <img class="conteudo-modal" id="img-ampliada">
+</div>
+
+<!-- Link para o seu arquivo JavaScript se você tiver um, ou cole a tag script abaixo -->
+<script>
+    const modal = document.getElementById("visualizador");
+    const imgAmpliada = document.getElementById("img-ampliada");
+    const botaoFechar = document.querySelector(".fechar-lb");
+
+    // Seleciona todas as imagens da galeria e adiciona o evento de clique
+    document.querySelectorAll(".imagem-galeria").forEach(imagem => {
+        imagem.addEventListener("click", function() {
+            modal.style.display = "flex";
+            imgAmpliada.src = this.src; // Pega a imagem clicada e joga no modal
+            document.body.classList.add("lb-aberto"); // Trava o scroll da página
+        });
+    });
+
+    // Fecha o modal ao clicar no 'X'
+    botaoFechar.addEventListener("click", () => {
+        modal.style.display = "none";
+        document.body.classList.remove("lb-aberto"); // Destrava o scroll
+    });
+
+    // Fecha o modal se o usuário clicar no fundo escuro fora da imagem
+    modal.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+            document.body.classList.remove("lb-aberto");
+        }
+    });
+</script>
+
 </body>
 </html>
 
